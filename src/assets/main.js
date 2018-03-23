@@ -8,7 +8,7 @@ function guess() {
     let input = document.getElementById('user-guess');
 
     if ((answer == '') || (attempt == '')) {
-        setHiddenField(answer);
+        setHiddenFields(answer);
     }
 
     if (!(validateInput(input.value))){
@@ -27,7 +27,7 @@ function guess() {
 
 }
 
-function setHiddenField(ans) {
+function setHiddenFields(ans) {
     ans = ans.toString();
     attempt = 0;
     while (ans.length < 4){
