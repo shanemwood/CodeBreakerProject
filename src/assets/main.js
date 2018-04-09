@@ -6,19 +6,27 @@ let tryMsg = "Incorrect, try again.";
 
 function guess() {
     let input = document.getElementById('user-guess');
+    let inputValid = validateInput(input.value)
 
-    if ((answer == '') || (attempt == '')) {
-        setHiddenFields(answer);
+    if ((answer.value == '') || (attempt.value == '')) {
+        setHiddenFields();
     }
 
-    if (!(validateInput(input.value))){
+    if (inputValid){
+        attempt.value += 1;
+    }
+    else if (inputValid == false){
         return false;
     }
-    if (getResults(input)) {
+    
+    if (getResults(input.value)) {
         setMessage(winMsg);
+        showAnswer(true);
     }
-    if ((getResults(input) == false) && attempt >= 10) {
+    if ((getResults(input.value) == false) && attempt >= 10) {
         setMessage(loseMsg);
+        showAnswer(false);
+        showReplay();
     }
     else {
         attempt ++;
@@ -27,18 +35,19 @@ function guess() {
 
 }
 
-function setHiddenFields(ans) {
+function setHiddenFields() {
+    var ans = Math.floor((Math.random() * 9999));
     ans = ans.toString();
     attempt = 0;
     while (ans.length < 4){
         ans = ("0" + ans)
     }
-    ans = Math.floor((Math.random() * 9999));
+    
     answer.value = ans;
 }
 
 function setMessage(msg) {
-    document.getElementById('message').innerHtml = msg;
+    document.getElementById('message').innerHTML = msg;
 }  
 
 function validateInput(input) {
