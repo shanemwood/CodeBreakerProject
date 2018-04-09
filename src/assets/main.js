@@ -6,30 +6,28 @@ let tryMsg = "Incorrect, try again.";
 
 function guess() {
     let input = document.getElementById('user-guess');
-    let inputValid = validateInput(input.value)
 
     if ((answer.value == '') || (attempt.value == '')) {
         setHiddenFields();
     }
 
-    if (inputValid){
-        attempt.value += 1;
-    }
-    else if (inputValid == false){
+    if (!validateInput(input.value)){
         return false;
+    }
+    else if (validateInput(input.value)){
+        attempt.value++;
     }
     
     if (getResults(input.value)) {
         setMessage(winMsg);
         showAnswer(true);
     }
-    if ((getResults(input.value) == false) && attempt >= 10) {
+    if ((getResults(input.value) == false) && attempt.value >= 10) {
         setMessage(loseMsg);
         showAnswer(false);
         showReplay();
     }
     else {
-        attempt ++;
         setMessage(tryMsg);
     }
 
@@ -38,7 +36,7 @@ function guess() {
 function setHiddenFields() {
     var ans = Math.floor((Math.random() * 9999));
     ans = ans.toString();
-    attempt = 0;
+    attempt.value = 0;
     while (ans.length < 4){
         ans = ("0" + ans)
     }
