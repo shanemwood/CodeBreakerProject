@@ -22,7 +22,7 @@ function guess() {
         setMessage(winMsg);
         showAnswer(true);
     }
-    if ((getResults(input.value) == false) && attempt.value >= 10) {
+    else if ((getResults(input.value) == false) && attempt.value >= 10) {
         setMessage(loseMsg);
         showAnswer(false);
         showReplay();
@@ -60,23 +60,25 @@ function validateInput(input) {
 }
 
 function getResults(guess) {
-    var beginningHtml = '<div class="row"><span class="col-md-6">' + guess + '</span><div class="col-md-6">';
-    document.getElementById("results").innerHTML = beginningHtml;
-    let answerStr = answer.toString();
+    let fullHtml = '<div class="row"><span class="col-md-6">' + guess + '</span><div class="col-md-6">';
+
+    let answerStr = answer.value.toString();
+    let guessStr = guess.toString();
     var numCorrect = 0;
-    for (var i = 0; i<guess.length; i++){
-        if (guess[i] == answerStr[i]){
-            document.getElementById("results").innerHTML += '<span class="glyphicon glyphicon-ok"></span>';
+    for (var i = 0; i<guessStr.length; i++){
+        if (guessStr.charAt(i) == answerStr.charAt(i)){
+            fullHtml += '<span class="glyphicon glyphicon-ok"></span>';
             numCorrect++;
         }
-        else if (answerStr.includes(guess[i])) {
-            document.getElementById("results").innerHTML += '<span class="glyphicon glyphicon-transfer"></span>';
+        else if (answerStr.includes(guessStr.charAt(i))) {
+            fullHtml += '<span class="glyphicon glyphicon-transfer"></span>';
         }
         else{
-            document.getElementById("results").innerHTML += '<span class="glyphicon glyphicon-remove"></span>';
+            fullHtml+= '<span class="glyphicon glyphicon-remove"></span>';
         }
     }
-    document.getElementById("results").innerHTML += '</div>';
+    fullHtml += '</div></div>';
+    document.getElementById("results").innerHTML = fullHtml;
     if (numCorrect == 4){
         showAnswer(true);
         return true;
